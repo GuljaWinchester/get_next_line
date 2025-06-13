@@ -6,7 +6,7 @@
 /*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:40:52 by gperedny          #+#    #+#             */
-/*   Updated: 2025/06/12 14:02:43 by gperedny         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:16:13 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,18 @@ char	*return_buffer(char *buffer, char *storage, int index)
 }
 int	main(void)
 {
-	// char buffer[2];
 	int fd;
 	int count;
 	char *nxln;
 
+	// char buffer[2];
 	count = 0;
 	fd = open("gnl.txt", O_RDONLY);
 	while (1)
 	{
 		nxln = get_next_line(fd);
 		if (nxln == NULL)
-			break;
+			break ;
 		count++;
 		printf("%d %s\n", count, nxln);
 		free(nxln);

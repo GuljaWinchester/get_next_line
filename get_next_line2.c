@@ -3,54 +3,95 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char *print_and_store(char *given_line, char *storage, int index)
+char	*extract_save(char *keeper, char *storage)
 {
-	char *result_line;
-	int i;
-	storage = "bob";
+	char	*line;
+	size_t	i;
+	size_t	j;
 
-	if (given_line[index] == '\n')
-		index++;
-	result_line = malloc((index +1) * sizeof(char));
-	if(!result_line)
-		return NULL;
+	j = 0;
 	i = 0;
-	while (i < index)
-	{
-		result_line[i] = given_line[i];
-		i++;
-	}
-	result_line[i] = '\0';
-	
-	free(given_line);
-	return(result_line);
+	if (!keeper || !*keeper)
+		return (NULL);
+	while (keeper[j] && keeper[j] != '\n')
+		j++;
+	j++;
+	line = malloc(sizeof(char) * (j + 1));
+	if (!line)
+		return (NULL);
+	while (i < j)
+		line[i++] = *keeper++;
+	line[i] = '\0';
+	storage = ft_memcpy(storage, keeper + j, (ft_strlen(keeper) - j));
+	// printf("%s\n", storage);
+	return (line);
 }
+
+/*1.copies our read amount into new "keeper" line
+  2. frees the previous "keeper" line
+  3. at the end we get result of "old keeper line" + read amount*/
+char	*strjoin_free(char *s1, const char *s2)
+{
+	char	*res;
+
+	if (!s2)
+		return (free(s1), NULL);
+	res = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!res)
+		return (free(s1), NULL);
+	ft_memcpy(res, s1, ft_strlen(s1));
+	ft_memcpy(res + ft_strlen(s1), s2, ft_strlen(s2));
+	res[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	free(s1);
+	return (res);
+}
+/*1. duplicates what was left from previous iteration into "keeper" line.
+  2. reads next amount from the file till we find \n inside.
+  3. attaches what was read to our "keeper" line.*/
+char	*dup_read_join(int fd, char *storage, char *reader)
+{
+	char	*keeper2;
+	int		bytes_read;
+
+	if (storage)
+		keeper2 = ft_strdup(storage);
+	else
+		keeper2 = ft_strdup("");
+	if (!keeper2)
+		return (NULL);
+	while ((bytes_read = read(fd, reader, BUFFER_SIZE)) > 0
+		&& !ft_strrchr(keeper2, '\n'))
+	{
+		if (bytes_read == -1)
+			return (free(keeper2), NULL);
+		reader[bytes_read] = '\0';
+		keeper2 = strjoin_free(keeper2, reader);
+		if (!keeper2)
+			return (NULL);
+	}
+	return (keeper2);
+}
+
 char	*get_next_line(int fd)
 {
-	static char *storage;
-	char *result_line;
-	int reader;
-	int i;
+	static char	*storage;
+	char		*reader;
+	char		*keeper;
+	char		*final_line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return NULL;
-	result_line = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!result_line)
 		return (NULL);
-	reader = read(fd, result_line, BUFFER_SIZE);
-	if (reader <= 0)
-		return (free(result_line), NULL);
-	i = 0;
-	while (result_line)
-	{
-		if (result_line[i] == '\n' || result_line[i] == '\0')
-		{
-			return((print_and_store(result_line, storage, i)));
-		}
-		i++;
-	}
-	return(result_line);
-
+	reader = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!reader)
+		return (NULL);
+	keeper = dup_read_join(fd, storage, reader);
+	final_line = extract_save(keeper, storage);
+	free(reader);
+	free(keeper);
+	if (final_line == NULL || *final_line != 0)
+		return (final_line);
+	free(final_line);
+	return (NULL);
 }
 
 int	main(void)
@@ -65,7 +106,7 @@ int	main(void)
 	{
 		nxln = get_next_line(fd);
 		if (nxln == NULL)
-			break;
+			break ;
 		count++;
 		printf("%d %s\n", count, nxln);
 		free(nxln);

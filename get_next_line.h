@@ -6,19 +6,21 @@
 /*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:41:43 by gperedny          #+#    #+#             */
-/*   Updated: 2025/06/13 19:16:59 by gperedny         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:06:34 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# include <fcntl.h>
 # include <stdint.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 25
 # endif
 
 char	*ft_strdup(const char *s);

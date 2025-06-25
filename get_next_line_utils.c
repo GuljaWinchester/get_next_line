@@ -6,7 +6,7 @@
 /*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:41:31 by gperedny          #+#    #+#             */
-/*   Updated: 2025/06/13 18:00:25 by gperedny         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:34:36 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	*ft_strdup(const char *s)
 	dest[i] = '\0';
 	return (dest);
 }
+
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void			*str;
@@ -57,6 +58,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	}
 	return (str);
 }
+
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
@@ -68,6 +70,7 @@ size_t	ft_strlen(const char *str)
 	}
 	return (i);
 }
+
 char	*ft_strrchr(const char *s, int c)
 {
 	unsigned int	i;
@@ -85,10 +88,11 @@ char	*ft_strrchr(const char *s, int c)
 	}
 	return (NULL);
 }
+
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	unsigned char *s;
-	unsigned char *d;
+	unsigned char	*s;
+	unsigned char	*d;
 
 	s = (unsigned char *)src;
 	d = (unsigned char *)dest;

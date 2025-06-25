@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line2.c                                   :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:02:34 by gperedny          #+#    #+#             */
-/*   Updated: 2025/06/16 13:03:01 by gperedny         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:35:49 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ char	*extract_save(char *keeper, char *storage)
 	k = ft_strlen(keeper) - j;
 	while (i < j)
 		line[i++] = *keeper++;
-	// line[++i] = '\0';
 	storage = ft_memcpy(storage, keeper, k);
 	storage[k] = '\0';
 	return (line);
@@ -57,6 +56,7 @@ char	*strjoin_free(char *s1, const char *s2)
 	free(s1);
 	return (res);
 }
+
 /*1. duplicates what was left from previous iteration into "keeper" line.
   2. reads next amount from the file till we find \n inside.
   3. attaches what was read to our "keeper" line.*/
@@ -109,9 +109,9 @@ char	*get_next_line(int fd)
 
 int	main(void)
 {
-	int fd;
-	int count;
-	char *nxln;
+	int		fd;
+	int		count;
+	char	*nxln;
 
 	count = 0;
 	fd = open("gnl.txt", O_RDONLY);
